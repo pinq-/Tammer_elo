@@ -103,7 +103,7 @@ function fill_table(data){
   table= $('#Player_info').DataTable();
   $.each(data,function(i,val){
     oka_sum = val.tulokset.reduce((a,b) => a + b, 0);
-    objects.push({Name:i, Elo:val.Elo_nyt, Oka:oka_sum/val.tulokset.length, win:val.Voitot, los: val.Haviot, even:val.Tasa});
+    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)), win:val.Voitot, los: val.Haviot, even:val.Tasa});
   });
   console.log(objects);
   table.clear();
