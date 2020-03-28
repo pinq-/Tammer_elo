@@ -4,6 +4,7 @@ $( document ).ready(function() {
         paging: false,
         searching: false,
         "info": false,
+        "order": [[ 1, "desc" ]],
         "columns": [
             { data: "Name", defaultContent: 0 },
             { data: "Elo", defaultContent: 0 },
@@ -92,6 +93,9 @@ function piirra_elo_kayra(data){
           title: {
               text: "elo-pisteet"
           }
+      },
+      legend: {
+                enabled : ($(window).width() > 768)
       },
 
       xAxis: {
