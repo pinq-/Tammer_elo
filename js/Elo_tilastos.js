@@ -1,3 +1,4 @@
+var save_json = [];
 $( document ).ready(function() {
   get_json();
   var Player_result_table = $('#Player_info').DataTable( {
@@ -14,15 +15,21 @@ $( document ).ready(function() {
             { data: "even", defaultContent: 0 },
         ]
   });
+  $('#Player_info tbody').on( 'click', 'tr', function () {
+    pelaaja_id =$(this).closest('tr').children('td:first').text();
+    piirra_hka_kayra(pelaaja_id);
+    if (!$("#Hka_div").hasClass("show")) {
+      $('#Hka_div').collapse('show');
+    };
+  });
+
 });
 
 
 function get_json(){
    $.getJSON("https://kukko.kapsi.fi/matches.json", function (data) {
-     // console.log(data);
      parse_player_data(data);
-   })
-
+   });
 };
 
 function parse_player_data(data){
@@ -72,6 +79,7 @@ function parse_player_data(data){
   });
   piirra_elo_kayra(stats);
   fill_table(stats);
+  save_json = stats;
   // console.log(stats);
 }
 
@@ -121,7 +129,52 @@ function piirra_elo_kayra(data){
   });
 };
 
+function piirra_hka_kayra(name){
+    // var pelin_aika = save_json[name].pelin_aika.slice();
+    // pelin_aika.pop();
+    // pelin_aika.shift();
+    // elo_points = pelin_aika.map((item,index) => {return [item,save_json[name].tulokset[index]]});
+    // console.log(elo_points);
+  Highcharts.chart('Hka_pisteet', {
+      title:{
+          text:"",
+      },
+      credits:{enabled:false},
+
+      yAxis: {
+          title: {
+              text: "Hka-pisteet"
+          }
+      },
+      legend: {
+                enabled : ($(window).width() > 768)
+      },
+
+      xAxis: {
+        tickInterval: 1,
+//         type: 'datetime',
+//         title: {
+//             text: "pelien määrä"
+//         },
+//         labels: {
+//   format: '{value:%d.%m.%Y}',
+// }
+      },
+      series:[{data: save_json[name].tulokset, name:name}],
+
+          plotOptions: {
+              series: {
+                  marker: {
+                      enabled: false
+                  }
+              }
+            }
+
+  });
+};
+
 function fill_table(data){
+  // console.log(data);
   objects = [];
   table= $('#Player_info').DataTable();
   $.each(data,function(i,val){
