@@ -35,9 +35,12 @@ function get_json(){
 function parse_player_data(data){
   var stats = {};
   start_points = 0;
+  var peli_kerrat = {};
   // console.log(data.length);
   $("#games_n").text(data.length);
   $.each(data, function(i,val){
+    player_key1 = val.player1 + "_" + val.player2;
+    player_key2 = val.player2 + "_" + val.player1;
     // console.log(val.player1);
     if(start_points == 0){
       start_points = (val.elo1 + val.elo2)/2;
@@ -72,6 +75,15 @@ function parse_player_data(data){
       stats[val.player2].Tasa ++;
       stats[val.player1].Tasa ++;
     };
+    if(player_key1 in peli_kerrat){
+      peli_kerrat[player_key1].pelit ++;
+    }
+    else if(player_key2 in peli_kerrat){
+      peli_kerrat[player_key2].pelit ++;
+    }else{
+      peli_kerrat[player_key1] = {pelit:1};
+    }
+
   });
   $.each(stats, function(i, val){
     val.Elo_kehitys.push(val.Elo_kehitys[val.Elo_kehitys.length -1]);
@@ -79,8 +91,9 @@ function parse_player_data(data){
   });
   piirra_elo_kayra(stats);
   fill_table(stats);
+  piirra_yhteydet(peli_kerrat);
   save_json = stats;
-  // console.log(stats);
+  // console.log(peli_kerrat);
 }
 
 function piirra_elo_kayra(data){
@@ -107,34 +120,32 @@ function piirra_elo_kayra(data){
       },
 
       xAxis: {
-        // tickInterval: 1,
-        type: 'datetime',
-        title: {
-            text: "pelien määrä"
-        },
-        labels: {
-  format: '{value:%d.%m.%Y}',
-}
+          // tickInterval: 1,
+          type: 'datetime',
+          title: {
+              text: "pelien määrä"
+          },
+          labels: {
+            format: '{value:%d.%m.%Y}',
+          }
       },
       series: objects,
 
-          plotOptions: {
-              series: {
-                  marker: {
-                      enabled: false
-                  }
+      plotOptions: {
+          series: {
+              marker: {
+                  enabled: false
               }
-            }
+          }
+      },
+      tooltip: {
+        shared: true,
+      },
 
   });
 };
 
 function piirra_hka_kayra(name){
-    // var pelin_aika = save_json[name].pelin_aika.slice();
-    // pelin_aika.pop();
-    // pelin_aika.shift();
-    // elo_points = pelin_aika.map((item,index) => {return [item,save_json[name].tulokset[index]]});
-    // console.log(elo_points);
   Highcharts.chart('Hka_pisteet', {
       title:{
           text:"",
@@ -171,6 +182,51 @@ function piirra_hka_kayra(name){
             }
 
   });
+};
+
+function piirra_yhteydet(data){
+    objects = [];
+    var pelaajat;
+    $.each(data, function(i,val){
+      // console.log(i.split("_"),val);
+      pelaajat = i.split("_");
+      pelaajat.push(val.pelit);
+      // console.log(pelaajat);
+      objects.push(pelaajat);
+    });
+    // console.log(objects);
+    Highcharts.chart('peli_kerrat', {
+
+        title: {
+            text: ''
+        },
+        credits:{enabled:false},
+
+        accessibility: {
+            point: {
+                valueDescriptionFormat: '{index}. From {point.from} to {point.to}: {point.weight}.'
+            }
+        },
+
+        series: [{
+            keys: ['from', 'to', 'weight'],
+            data: objects,
+            type: 'dependencywheel',
+            name: "",
+            dataLabels: {
+                color: '#333',
+                textPath: {
+                    enabled: false,
+                    attributes: {
+                        dy: 5
+                    }
+                },
+                distance: 10
+            },
+            size: '95%'
+        }]
+
+    });
 };
 
 function fill_table(data){
