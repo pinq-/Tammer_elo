@@ -15,6 +15,19 @@ $( document ).ready(function() {
             { data: "even", defaultContent: 0 },
         ]
   });
+  var New_games_table = $('#new_games').DataTable( {
+        paging: false,
+        searching: false,
+        "info": false,
+        "bSort" : false,
+        "columns": [
+            { data: "input_date", defaultContent: 0 },
+            { data: "player1", defaultContent: 0 },
+            { data: "score1", defaultContent: 0 },
+            { data: "score2", defaultContent: 0 },
+            { data: "player2", defaultContent: 0 },
+        ]
+  });
   $('#Player_info tbody').on( 'click', 'tr', function () {
     pelaaja_id =$(this).closest('tr').children('td:first').text();
     piirra_hka_kayra(pelaaja_id);
@@ -33,15 +46,16 @@ function get_json(){
 };
 
 function parse_player_data(data){
+  var new_games = $('#new_games').DataTable();
   var stats = {};
-  start_points = 0;
+  var start_points = 0;
   var peli_kerrat = {};
-  // console.log(data.length);
+  var date;
   $("#games_n").text(data.length);
   $.each(data, function(i,val){
     player_key1 = val.player1 + "_" + val.player2;
     player_key2 = val.player2 + "_" + val.player1;
-    // console.log(val.player1);
+    // console.log(i);
     if(start_points == 0){
       start_points = (val.elo1 + val.elo2)/2;
     }
@@ -83,6 +97,12 @@ function parse_player_data(data){
     }else{
       peli_kerrat[player_key1] = {pelit:1};
     }
+    if ( i > data.length-3){
+      date = new Date(val.input_date);
+      date.setMonth(date.getMonth() + 1);
+      val.input_date = date.getHours() + ":" + date.getMinutes() + " "+ date.getDate() + "." + date.getMonth();
+      new_games.rows.add([val]).draw();
+    }
 
   });
   $.each(stats, function(i, val){
@@ -120,7 +140,7 @@ function piirra_elo_kayra(data){
       },
 
       xAxis: {
-          // tickInterval: 1,
+          tickInterval: 86400000,
           type: 'datetime',
           title: {
               text: "pelien määrä"
@@ -134,7 +154,7 @@ function piirra_elo_kayra(data){
       plotOptions: {
           series: {
               marker: {
-                  enabled: false
+                  enabled: true
               }
           }
       },
@@ -240,4 +260,9 @@ function fill_table(data){
   // console.log(objects);
   table.clear();
   table.rows.add(objects).draw();
+};
+
+function dark_mode(){
+  $("#content-wrapper").toggleClass('bg-dark');
+
 };

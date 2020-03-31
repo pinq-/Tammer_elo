@@ -12,11 +12,10 @@
   <title>Tammer-kyykka ELO</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/sb-admin-2.css" rel="stylesheet">
 
 </head>
 
@@ -26,7 +25,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -59,18 +58,19 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
+    <!-- <div id="content-wrapper" class="d-flex flex-column bg-dark"> -->
 
       <!-- Main Content -->
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-light bg-gradient-danger topbar mb-4 static-top shadow">
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-
+          <!-- <button type="button" class="btn btn-dark">Dark mode</button> -->
 
         </nav>
         <!-- End of Topbar -->
@@ -88,11 +88,11 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card border-left-primary shadow py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pelejä pelattu</div>
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pelejä pelattu</div>
                       <div id = "games_n" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                     </div>
                     <div class="col-auto">
@@ -105,16 +105,40 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
+              <div class="card border-left-success shadow py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Rahaa tienattu</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">€22,023</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">€23,023</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-danger">Kaksi viimeistä peliä</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                  <table id="new_games" class="table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                          <th>Pmv</th>
+                           <th>Pelaaja 1</th>
+                           <th>Tulos 1</th>
+                           <th>Tulos 2</th>
+                           <th>Pelaaja 1</th>
+                        </tr>
+                    </thead>
+                  </table>
                   </div>
                 </div>
               </div>
@@ -131,7 +155,7 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Elo-pisteiden kehitys</h6>
+                  <h6 class="m-0 font-weight-bold text-danger">Elo-pisteiden kehitys</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -144,15 +168,15 @@
           </div>
           <div class="row">
             <!-- Area Chart -->
-            <div class="col-xl col-lg-7">
+            <div class="col-xl col-lg-1">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Ketkä pelanneet vastakkain</h6>
+                  <h6 class="m-0 font-weight-bold text-danger">Ketkä pelanneet vastakkain</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div id = "peli_kerrat" class="chart-area">
+                  <div id = "peli_kerrat" class="chart-pie">
 
                   </div>
                 </div>
@@ -163,37 +187,35 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Pelaajat</h6>
+                  <h6 class="m-0 font-weight-bold text-danger">Pelaajat</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="table-responsive">
-                <table id="Player_info" class="table table-hover" width="100%" cellspacing="0">
-                  <thead>
-                      <tr>
-                        <th>Nimi</th>
-                         <th>Elo</th>
-                         <th title = "Ottelukeskiarvo">Oka</th>
-                         <th title = "Heittokeskiarvo">Voitot</th>
-                         <th title = "Heittokeskiarvo">Häviöt</th>
-                         <th title = "Heittokeskiarvo">Tasapelit</th>
-                      </tr>
-                  </thead>
-                </table>
-                </div>
+                    <table id="Player_info" class="table table-hover" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                            <th>Nimi</th>
+                             <th>Elo</th>
+                             <th title = "Ottelukeskiarvo">Oka</th>
+                             <th>Voitot</th>
+                             <th>Häviöt</th>
+                             <th>Tasapelit</th>
+                          </tr>
+                      </thead>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-
-            <!-- Area Chart -->
             <div class="col-xl col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> -->
                   <a href="#Hka_div" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="Hka_div">
-                  <h6 class="m-0 font-weight-bold text-primary">Pelaajan Hka</h6>
+                  <h6 class="m-0 font-weight-bold text-danger">Pelaajan Oka</h6>
                   </a>
                 <!-- </div> -->
                 <!-- Card Body -->
@@ -206,7 +228,35 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-xl col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> -->
+                  <a href="#player_info" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="player_info">
+                  <h6 class="m-0 font-weight-bold text-danger">Pelaaja tilastot</h6>
+                  </a>
+                <!-- </div> -->
+                <!-- Card Body -->
+                <div class="collapse" id="player_info">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table id="Player_info" class="table table-hover" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                              <th>Nimi</th>
+                               <th>Paras peli</th>
+                            </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
         <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
