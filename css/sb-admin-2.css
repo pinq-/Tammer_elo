@@ -6274,7 +6274,7 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #5a5c69 !important;
+  background-color: #09090A !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -10579,7 +10579,7 @@ a:focus {
 
 @media (min-width: 768px) {
   .chart-pie {
-    height: calc(20rem - 43px) !important;
+    height: calc(30rem - 43px) !important;
   }
 }
 
@@ -10993,6 +10993,9 @@ footer.sticky-footer .copyright {
   font-size: 0.8rem;
 }
 
+body.sidebar-toggled footer.sticky-footer {
+  width: 100%;
+}
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
