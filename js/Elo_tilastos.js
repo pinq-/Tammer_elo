@@ -36,6 +36,10 @@ $( document ).ready(function() {
     };
   });
 
+  $('#dark-mode').on( 'click', function () {
+    dark_mode();
+  });
+
 });
 
 
@@ -112,6 +116,7 @@ function parse_player_data(data){
   piirra_elo_kayra(stats);
   fill_table(stats);
   piirra_yhteydet(peli_kerrat);
+  piirra_hka_kayra("");
   save_json = stats;
   // console.log(peli_kerrat);
 }
@@ -125,6 +130,8 @@ function piirra_elo_kayra(data){
     });
     // console.log(objects)
   Highcharts.chart('Elo_pisteet', {
+    colors: ['#6600cc', '#66ff33', '#2b908f','#ff0066',
+  '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee', '#ff0000', '#0066ff', '#009933', "#ff9900"],
       title:{
           text:"",
       },
@@ -166,6 +173,13 @@ function piirra_elo_kayra(data){
 };
 
 function piirra_hka_kayra(name){
+  var data;
+  if(name == ""){
+    data = [];
+  }
+  else{
+    data = save_json[name].tulokset;
+  }
   Highcharts.chart('Hka_pisteet', {
       title:{
           text:"",
@@ -191,7 +205,7 @@ function piirra_hka_kayra(name){
 //   format: '{value:%d.%m.%Y}',
 // }
       },
-      series:[{data: save_json[name].tulokset, name:name}],
+      series:[{data: data, name:name}],
 
           plotOptions: {
               series: {
@@ -202,6 +216,10 @@ function piirra_hka_kayra(name){
             }
 
   });
+  if ($("#content-wrapper").hasClass("bg-dark")) {
+    $("#Hka_pisteet .highcharts-background").toggleClass('bg-card-dark');
+    $("#Hka_pisteet text").toggleClass('text-gray-100');
+  }
 };
 
 function piirra_yhteydet(data){
@@ -216,6 +234,8 @@ function piirra_yhteydet(data){
     });
     // console.log(objects);
     Highcharts.chart('peli_kerrat', {
+      colors: ['#6600cc', '#66ff33', '#2b908f', '#ff0066',
+    '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee', '#ff0000', '#0066ff', '#009933', "#ff9900"],
 
         title: {
             text: ''
@@ -264,5 +284,27 @@ function fill_table(data){
 
 function dark_mode(){
   $("#content-wrapper").toggleClass('bg-dark');
+  $(".card-body").toggleClass('bg-card-dark');
+  $(".card").toggleClass('bg-card-dark');
+  $(".card-header").toggleClass('card-header-dark');
+  $(".h5").toggleClass('text-gray-100');
+  $(".h5").toggleClass('text-gray-800');
+  $(".h3").toggleClass('text-gray-100');
+  $(".h3").toggleClass('text-gray-800');
+  $(".sidebar-brand-text").toggleClass('text-gray-900');
+  $(".sidebar-brand-icon").toggleClass('text-gray-900');
+  $(".nav-link").toggleClass('text-gray-900');
+  $(".fas").toggleClass('text-gray-900');
+  $(".table").toggleClass('table-dark');
+  $(".highcharts-background").toggleClass('bg-card-dark');
+  $(".highcharts-text-outline").toggleClass('text-dark-stroke');
+  $("text").toggleClass('text-gray-100');
+  $("#dark-mode").toggleClass('btn-dark');
+  $("#dark-mode").toggleClass('btn-light');
+  if($("#dark-mode").text() == "Dark mode"){
+    $("#dark-mode").text("White mode")
+  }else{
+    $("#dark-mode").text("Dark mode")
 
+  }
 };

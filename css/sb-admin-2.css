@@ -1627,7 +1627,7 @@ pre code {
 
 .table-dark {
   color: #fff;
-  background-color: #5a5c69;
+  background-color: #212122;
 }
 
 .table-dark th,
@@ -4373,6 +4373,12 @@ input[type="button"].btn-block {
   background-color: #f8f9fc;
   border-bottom: 1px solid #e3e6f0;
 }
+.card-header-dark {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #353536;
+  border-bottom: 1px solid #353536;
+}
 
 .card-header:first-child {
   border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
@@ -6275,6 +6281,13 @@ button.bg-light:focus {
 
 .bg-dark {
   background-color: #09090A !important;
+  fill:#09090A !important;
+}
+
+.bg-card-dark {
+  background-color: #212122 !important;
+  border: 1px solid #212122;
+  fill:#212122 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -9762,8 +9775,13 @@ a:focus {
   font-size: 1.2rem;
 }
 
+.text-dark-stroke {
+  stroke: #000000  !important;
+  /* fill:  #ffffff !important; */
+}
 .text-gray-100 {
   color: #f8f9fc !important;
+  fill:  #ffffff !important;
 }
 
 .text-gray-200 {
