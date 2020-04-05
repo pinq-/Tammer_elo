@@ -87,35 +87,62 @@
 
           <!-- Content Row -->
           <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pelejä pelattu</div>
-                      <div id = "games_n" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+            <div class="col-lg-6 mb-4">
+                <div class="row">
+              <!-- Earnings (Monthly) Card Example -->
+                  <div class="col-lg-6 mb-4">
+                    <div class="card border-left-primary shadow py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pelejä pelattu</div>
+                            <div id = "games_n" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+                <div class="col-lg-6 mb-4">
+                  <div class="card border-left-success shadow py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Rahaa tienattu</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">€53,123</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Rahaa tienattu</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">€23,023</div>
+                <div class="col-lg-6 mb-4">
+                  <div class="card border-left-warning shadow py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-uppercase mb-1">Eniten pelannut pelaaja</div>
+                          <div id="player_n" class="h5 mb-0 font-weight-bold text-gray-800">-</div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-auto">
-                      <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                  <div class="card border-left-warning shadow py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-uppercase mb-1">Piste rohmu (pisteet/pelit)</div>
+                          <div id="elo_player" class="h5 mb-0 font-weight-bold text-gray-800">-</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -125,7 +152,7 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-danger">Kaksi viimeistä peliä</h6>
+                  <h6 class="m-0 font-weight-bold text-danger">Viimeisiimät pelit</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -135,8 +162,10 @@
                         <tr>
                           <th>Pmv</th>
                            <th>Pelaaja 1</th>
+                           <th>ELO Δ</th>
                            <th>Tulos 1</th>
                            <th>Tulos 2</th>
+                           <th>ELO Δ</th>
                            <th>Pelaaja 1</th>
                         </tr>
                     </thead>
@@ -200,6 +229,7 @@
                             <th>Nimi</th>
                              <th>Elo</th>
                              <th title = "Ottelukeskiarvo">Oka</th>
+                             <th>N.</th>
                              <th>Voitot</th>
                              <th>Häviöt</th>
                              <th>Tasapelit</th>
@@ -224,33 +254,6 @@
                 <div class="collapse" id="Hka_div">
                   <div class="card-body">
                     <div id = "Hka_pisteet" class="chart-area">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xl col-lg-7">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> -->
-                  <a href="#player_info" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="player_info">
-                  <h6 class="m-0 font-weight-bold text-danger">Pelaaja tilastot</h6>
-                  </a>
-                <!-- </div> -->
-                <!-- Card Body -->
-                <div class="collapse" id="player_info">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table id="Player_info" class="table table-hover" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                              <th>Nimi</th>
-                               <th>Paras peli</th>
-                            </tr>
-                        </thead>
-                      </table>
                     </div>
                   </div>
                 </div>

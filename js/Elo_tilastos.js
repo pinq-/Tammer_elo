@@ -1,6 +1,8 @@
 var save_json = [];
 $( document ).ready(function() {
   get_json();
+  // localStorage.getItem('theme');
+  // localStorage.setItem('theme', 'dark'); //add this
   var Player_result_table = $('#Player_info').DataTable( {
         paging: false,
         searching: false,
@@ -10,6 +12,7 @@ $( document ).ready(function() {
             { data: "Name", defaultContent: 0 },
             { data: "Elo", defaultContent: 0 },
             { data: "Oka", defaultContent: 0 },
+            { data: "N", defaultContent: 0 },
             { data: "win", defaultContent: 0 },
             { data: "los", defaultContent: 0 },
             { data: "even", defaultContent: 0 },
@@ -19,12 +22,14 @@ $( document ).ready(function() {
         paging: false,
         searching: false,
         "info": false,
-        "bSort" : false,
+        "order": [[ 0, "desc" ]],
         "columns": [
-            { data: "input_date", defaultContent: 0 },
+            { data: "input_date_s", defaultContent: 0 },
             { data: "player1", defaultContent: 0 },
+            { data: "elo1_delta", defaultContent: 0 },
             { data: "score1", defaultContent: 0 },
             { data: "score2", defaultContent: 0 },
+            { data: "elo2_delta", defaultContent: 0 },
             { data: "player2", defaultContent: 0 },
         ]
   });
@@ -39,6 +44,12 @@ $( document ).ready(function() {
   $('#dark-mode').on( 'click', function () {
     dark_mode();
   });
+  // const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+  // if(currentTheme){
+  //   if (currentTheme === 'dark') {
+  //     dark_mode();
+  //   }
+  // }
 
 });
 
@@ -72,6 +83,14 @@ function parse_player_data(data){
     if(typeof stats[val.player2] === 'undefined'){
       stats[val.player2] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0}
     };
+    if ( i > data.length-4){
+      date = new Date(val.input_date);
+      date.setMonth(date.getMonth() + 1);
+      val.input_date_s = date.getHours() + ":" + date.getMinutes() + " "+ date.getDate() + "." + date.getMonth();
+      val.elo1_delta = Number((val.elo1 - stats[val.player1].Elo_nyt).toFixed(1))
+      val.elo2_delta = Number((val.elo2 - stats[val.player2].Elo_nyt).toFixed(1))
+      new_games.rows.add([val]).draw();
+    }
     date = new Date(val.input_date).getTime();
     stats[val.player1].tulokset.push(val.score1);
     stats[val.player1].Elo_kehitys.push(Number((val.elo1).toFixed(1)));
@@ -101,12 +120,6 @@ function parse_player_data(data){
     }else{
       peli_kerrat[player_key1] = {pelit:1};
     }
-    if ( i > data.length-3){
-      date = new Date(val.input_date);
-      date.setMonth(date.getMonth() + 1);
-      val.input_date = date.getHours() + ":" + date.getMinutes() + " "+ date.getDate() + "." + date.getMonth();
-      new_games.rows.add([val]).draw();
-    }
 
   });
   $.each(stats, function(i, val){
@@ -118,7 +131,7 @@ function parse_player_data(data){
   piirra_yhteydet(peli_kerrat);
   piirra_hka_kayra("");
   save_json = stats;
-  // console.log(peli_kerrat);
+  // console.log(stats);
 }
 
 function piirra_elo_kayra(data){
@@ -162,7 +175,8 @@ function piirra_elo_kayra(data){
           series: {
               marker: {
                   enabled: true
-              }
+              },
+              step: true,
           }
       },
       tooltip: {
@@ -197,13 +211,6 @@ function piirra_hka_kayra(name){
 
       xAxis: {
         tickInterval: 1,
-//         type: 'datetime',
-//         title: {
-//             text: "pelien määrä"
-//         },
-//         labels: {
-//   format: '{value:%d.%m.%Y}',
-// }
       },
       series:[{data: data, name:name}],
 
@@ -271,13 +278,35 @@ function piirra_yhteydet(data){
 
 function fill_table(data){
   // console.log(data);
-  objects = [];
-  table= $('#Player_info').DataTable();
+  var player_n = {Name:"-", n:0};
+  var player_elo = {Name:"-", elo:0}, elo_d = 0;
+  var objects = [], games_n = 0;
+  var table= $('#Player_info').DataTable();
   $.each(data,function(i,val){
+    elo_d = 0;
+    $.each(val.Elo_kehitys, function(i,val_elo){
+      // console.log(i, val_elo);
+      if(i == (val.Elo_kehitys.length - 1)){
+        return false;
+      }
+      elo_d += val.Elo_kehitys[i+1] - val_elo;
+    });
+    elo_d = Number((elo_d / (val.Elo_kehitys.length -1)).toFixed(2));
+    // console.log(elo_d);
     oka_sum = val.tulokset.reduce((a,b) => a + b, 0);
-    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)), win:val.Voitot, los: val.Haviot, even:val.Tasa});
+    games_n = val.Voitot + val.Haviot + val.Tasa;
+    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)),N:games_n, win:val.Voitot, los: val.Haviot, even:val.Tasa});
+    if(player_n.n < games_n){
+      player_n.n = games_n;
+      player_n.Name = i;
+    }
+    if(player_elo.elo < elo_d){
+      player_elo.elo = elo_d;
+      player_elo.Name = i;
+    }
   });
-  // console.log(objects);
+  $("#player_n").text(player_n.Name + " (" + player_n.n + ")");
+  $("#elo_player").text(player_elo.Name + " (" + player_elo.elo + " pistettä/peli)");
   table.clear();
   table.rows.add(objects).draw();
 };
