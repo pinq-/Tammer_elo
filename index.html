@@ -153,23 +153,25 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-danger">Viimeisiimät pelit</h6>
+                  <ul class="navbar-nav ml-auto">
+                      <button id="all_games" href="#" data-toggle="modal" data-target="#logoutModal" type="button" class="btn btn-danger">Kaikki pelit</button>
+                  </ul>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="table-responsive">
-                  <table id="new_games" class="table" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                          <th>Pmv</th>
-                           <th>Pelaaja 1</th>
-                           <th>ELO Δ</th>
-                           <th>Tulos 1</th>
-                           <th>Tulos 2</th>
-                           <th>ELO Δ</th>
-                           <th>Pelaaja 1</th>
-                        </tr>
-                    </thead>
-                  </table>
+                    <table id="new_games" class="table" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                            <th>Pmv</th>
+                            <th>ELO Δ</th>
+                             <th>Pelaaja 1</th>
+                             <th>Tulos 1</th>
+                             <th>Tulos 2</th>
+                             <th>Pelaaja 2</th>
+                          </tr>
+                      </thead>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -270,9 +272,38 @@
 
     </div>
     <!-- End of Content Wrapper -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Kaikki pelit</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table id="all_games_table" class="table" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      <th>Pmv</th>
+                      <th>ELO Δ</th>
+                       <th>Pelaaja 1</th>
+                       <th>Tulos 1</th>
+                       <th>Tulos 2</th>
+                       <th>Pelaaja 2</th>
+                    </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Sulje</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  </div>
-  <!-- End of Page Wrapper -->
 
 
 
@@ -284,6 +315,8 @@
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/sankey.js"></script>
   <script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script  type="text/javascript" charset="utf-8"  src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>
   <script src="js/base.js" type="text/javascript" charset="utf8"></script>
   <script src="js/Elo_tilastos.js" type="text/javascript" charset="utf8"></script>
 
