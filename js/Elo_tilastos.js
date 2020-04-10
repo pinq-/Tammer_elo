@@ -64,6 +64,7 @@ $( document ).ready(function() {
 
   $('#dark-mode').on( 'click', function () {
     dark_mode();
+    Highcharts.chart('Elo_pisteet').xAxis[0].setExtremes(Date.UTC(2020, 4, 8), Date.UTC(2020, 5, 10));
   });
   // const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
   // if(currentTheme){
@@ -142,9 +143,10 @@ function parse_player_data(data){
     }
 
   });
+  var today = new Date().getTime();
   $.each(stats, function(i, val){
     val.Elo_kehitys.push(val.Elo_kehitys[val.Elo_kehitys.length -1]);
-    val.pelin_aika.push(new Date().getTime());
+    val.pelin_aika.push(today);
   });
   piirra_elo_kayra(stats);
   fill_table(stats);
@@ -162,11 +164,36 @@ function piirra_elo_kayra(data){
       objects.push({name:i, data:elo_points});
     });
     // console.log(objects)
-  Highcharts.chart('Elo_pisteet', {
+  Highcharts.stockChart('Elo_pisteet', {
     colors: ['#6600cc', '#66ff33', '#2b908f','#ff0066',
   '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee', '#ff0000', '#0066ff', '#009933', "#ff9900"],
       title:{
           text:"",
+      },
+      rangeSelector: {
+        inputEnabled: true,
+        buttonTheme: {
+            visibility: 'hidden'
+        },
+        labelStyle: {
+            visibility: 'hidden'
+        }
+    },
+      chart: {
+          zoomType: '',
+          panning: true,
+          panKey: 'shift',
+          events: {
+                  load: function() {
+                      var chart = this,
+                      series = this.series[0],
+                      xAxis = chart.xAxis[0],
+                      newStart = series.xData[series.xData.length -2],
+                      newEnd = series.xData[series.xData.length -1];
+                      // console.log(series.xData);
+                    xAxis.setExtremes(newStart, newEnd);
+                  }
+                }
       },
       credits:{enabled:false},
 
@@ -183,10 +210,11 @@ function piirra_elo_kayra(data){
           tickInterval: 86400000,
           type: 'datetime',
           title: {
-              text: "pelien määrä"
+              text: "pelien aika"
           },
           labels: {
             format: '{value:%d.%m.%Y}',
+            enabled : ($(window).width() > 768),
           }
       },
       series: objects,
@@ -304,14 +332,14 @@ function fill_table(data){
   var table= $('#Player_info').DataTable();
   $.each(data,function(i,val){
     elo_d = 0;
+    // console.log(i, val);
     $.each(val.Elo_kehitys, function(i,val_elo){
-      // console.log(i, val_elo);
       if(i == (val.Elo_kehitys.length - 1)){
         return false;
       }
       elo_d += val.Elo_kehitys[i+1] - val_elo;
     });
-    elo_d = Number((elo_d / (val.Elo_kehitys.length -1)).toFixed(2));
+    elo_d = Number((elo_d / (val.Elo_kehitys.length -2)).toFixed(2));
     // console.log(elo_d);
     oka_sum = val.tulokset.reduce((a,b) => a + b, 0);
     games_n = val.Voitot + val.Haviot + val.Tasa;
