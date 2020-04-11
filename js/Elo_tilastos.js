@@ -1,6 +1,7 @@
 var save_json = [];
 $( document ).ready(function() {
   get_json();
+  alert("Error 33. Check console");
   // $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
   // localStorage.getItem('theme');
   // localStorage.setItem('theme', 'dark'); //add this
@@ -93,7 +94,7 @@ function parse_player_data(data){
   $.each(data, function(i,val){
     player_key1 = val.player1 + "_" + val.player2;
     player_key2 = val.player2 + "_" + val.player1;
-    // console.log(i);
+    console.log(val);
     if(start_points == 0){
       start_points = (val.elo1 + val.elo2)/2;
     }
