@@ -1,7 +1,6 @@
 var save_json = [];
 $( document ).ready(function() {
   get_json();
-  alert("Error 33. Check console");
   // $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
   // localStorage.getItem('theme');
   // localStorage.setItem('theme', 'dark'); //add this
@@ -94,7 +93,7 @@ function parse_player_data(data){
   $.each(data, function(i,val){
     player_key1 = val.player1 + "_" + val.player2;
     player_key2 = val.player2 + "_" + val.player1;
-    console.log(val);
+    // console.log(val);
     if(start_points == 0){
       start_points = (val.elo1 + val.elo2)/2;
     }
@@ -152,7 +151,6 @@ function parse_player_data(data){
   piirra_elo_kayra(stats);
   fill_table(stats);
   piirra_yhteydet(peli_kerrat);
-  piirra_hka_kayra("");
   save_json = stats;
   // console.log(stats);
 }
@@ -236,13 +234,7 @@ function piirra_elo_kayra(data){
 };
 
 function piirra_hka_kayra(name){
-  var data;
-  if(name == ""){
-    data = [];
-  }
-  else{
-    data = save_json[name].tulokset;
-  }
+  var data = save_json[name].tulokset;
   Highcharts.chart('Hka_pisteet', {
       title:{
           text:"",
@@ -261,17 +253,53 @@ function piirra_hka_kayra(name){
       xAxis: {
         tickInterval: 1,
       },
-      series:[{data: data, name:name}],
+      series:[{
+              data: data,
+              name:name,
+              type:'spline',
+            }],
 
-          plotOptions: {
-              series: {
-                  marker: {
-                      enabled: false
-                  }
-              }
-            }
+          // plotOptions: {
+          //     series: {
+          //         marker: {
+          //             enabled: false
+          //         }
+          //     }
+          //   }
 
-  });
+  }
+  , function(chart) {
+    var sumX = 0, //sum of x values
+      sumY = 0, //sum of y values
+      sumXX = 0, //sum of x^2 values
+      sumXY = 0, //sum of xy values
+      newData = [],
+      a, b, n = chart.series[0].data.length;
+    Highcharts.each(chart.series[0].data, function(p, i) {
+      sumXY += p.y * p.x;
+      sumX += p.x;
+      sumY += p.y;
+      sumXX += p.x * p.x
+    });
+    //looking for y = ax + b
+    a = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    b = (sumY * sumXX - sumX * sumXY) / (n * sumXX - sumX * sumX);
+    for (var i = 0; i < n; i++) {
+      newData.push(a * i + b)
+    }
+    chart.addSeries({
+      type: 'line',
+      name: 'Regression',
+      data: newData,
+      marker: {
+        enabled: false
+      },
+      dashStyle: 'longdash',
+      color: '#FF0000'
+
+    })
+  }
+);
   if ($("#content-wrapper").hasClass("bg-dark")) {
     $("#Hka_pisteet .highcharts-background").toggleClass('bg-card-dark');
     $("#Hka_pisteet text").toggleClass('text-gray-100');
