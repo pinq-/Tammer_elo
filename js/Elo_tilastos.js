@@ -13,6 +13,7 @@ $( document ).ready(function() {
             { data: "Name", defaultContent: 0 },
             { data: "Elo", defaultContent: 0 },
             { data: "Oka", defaultContent: 0 },
+            { data: "gamed", defaultContent: 0 },
             { data: "N", defaultContent: 0 },
             { data: "win", defaultContent: 0 },
             { data: "los", defaultContent: 0 },
@@ -187,7 +188,7 @@ function piirra_elo_kayra(data){
                       var chart = this,
                       series = this.series[0],
                       xAxis = chart.xAxis[0],
-                      newStart = series.xData[series.xData.length -2],
+                      newStart = series.xData[series.xData.length -5],
                       newEnd = series.xData[series.xData.length -1];
                       // console.log(series.xData);
                     xAxis.setExtremes(newStart, newEnd);
@@ -369,10 +370,9 @@ function fill_table(data){
       elo_d += val.Elo_kehitys[i+1] - val_elo;
     });
     elo_d = Number((elo_d / (val.Elo_kehitys.length -2)).toFixed(2));
-    // console.log(elo_d);
     oka_sum = val.tulokset.reduce((a,b) => a + b, 0);
     games_n = val.Voitot + val.Haviot + val.Tasa;
-    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)),N:games_n, win:val.Voitot, los: val.Haviot, even:val.Tasa});
+    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)), gamed: diff(val.tulokset), N:games_n, win:val.Voitot, los: val.Haviot, even:val.Tasa});
     if(player_n.n < games_n){
       player_n.n = games_n;
       player_n.Name = i;
@@ -415,3 +415,14 @@ function dark_mode(){
 
   }
 };
+
+function diff(ary) {
+    var newA = [];
+    for (var i = 1; i < ary.length; i++)  newA.push(Math.abs(ary[i] - ary[i - 1]));
+    var result = newA.reduce((a,b) => a + b, 0)/newA.length;
+    result = Number((result).toFixed(1));
+    if(isNaN(result)){
+      result = 0;
+    }
+    return result;
+}
