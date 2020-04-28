@@ -12,7 +12,8 @@ $( document ).ready(function() {
         "columns": [
             { data: "Name", defaultContent: 0 },
             { data: "Elo", defaultContent: 0 },
-            { data: "Oka", defaultContent: 0 },
+            { data: "oka", defaultContent: 0 },
+            { data: "best", defaultContent: 0 },
             { data: "gamed", defaultContent: 0 },
             { data: "N", defaultContent: 0 },
             { data: "win", defaultContent: 0 },
@@ -84,12 +85,13 @@ function get_json(){
 };
 
 function parse_player_data(data){
-  var new_games = $('#new_games').DataTable();
-  var all_games = $('#all_games_table').DataTable();
-  var stats = {};
-  var start_points = 0;
-  var peli_kerrat = {};
-  var date;
+  var new_games = $('#new_games').DataTable(),
+  all_games = $('#all_games_table').DataTable(),
+  stats = {},
+  start_points = 0,
+  peli_kerrat = {},
+  date, best_rise = [0, "-"];
+
   $("#games_n").text(data.length);
   $.each(data, function(i,val){
     player_key1 = val.player1 + "_" + val.player2;
@@ -148,6 +150,13 @@ function parse_player_data(data){
   $.each(stats, function(i, val){
     val.Elo_kehitys.push(val.Elo_kehitys[val.Elo_kehitys.length -1]);
     val.pelin_aika.push(today);
+    if(val.tulokset.length > 1){
+      val.rise = rise(val.tulokset);
+      if(val.rise[0] > best_rise[0] && val.tulokset.length > 5){
+        best_rise = [val.rise[0], i];
+      }
+    }
+    $("#Best_rise").text(best_rise[1]);
   });
   piirra_elo_kayra(stats);
   fill_table(stats);
@@ -235,7 +244,7 @@ function piirra_elo_kayra(data){
 };
 
 function piirra_hka_kayra(name){
-  var data = save_json[name].tulokset;
+  var data = save_json[name];
   Highcharts.chart('Hka_pisteet', {
       title:{
           text:"",
@@ -255,38 +264,16 @@ function piirra_hka_kayra(name){
         tickInterval: 1,
       },
       series:[{
-              data: data,
+              data: data.tulokset,
               name:name,
               type:'spline',
             }],
 
-          // plotOptions: {
-          //     series: {
-          //         marker: {
-          //             enabled: false
-          //         }
-          //     }
-          //   }
-
   }
   , function(chart) {
-    var sumX = 0, //sum of x values
-      sumY = 0, //sum of y values
-      sumXX = 0, //sum of x^2 values
-      sumXY = 0, //sum of xy values
-      newData = [],
-      a, b, n = chart.series[0].data.length;
-    Highcharts.each(chart.series[0].data, function(p, i) {
-      sumXY += p.y * p.x;
-      sumX += p.x;
-      sumY += p.y;
-      sumXX += p.x * p.x
-    });
-    //looking for y = ax + b
-    a = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-    b = (sumY * sumXX - sumX * sumXY) / (n * sumXX - sumX * sumX);
-    for (var i = 0; i < n; i++) {
-      newData.push(a * i + b)
+    var newData = [];
+    for (var i = 0; i < data.tulokset.length; i++) {
+      newData.push(data.rise[0] * i + data.rise[1]);
     }
     chart.addSeries({
       type: 'line',
@@ -372,7 +359,7 @@ function fill_table(data){
     elo_d = Number((elo_d / (val.Elo_kehitys.length -2)).toFixed(2));
     oka_sum = val.tulokset.reduce((a,b) => a + b, 0);
     games_n = val.Voitot + val.Haviot + val.Tasa;
-    objects.push({Name:i, Elo:val.Elo_nyt, Oka:Number((oka_sum/val.tulokset.length).toFixed(2)), gamed: diff(val.tulokset), N:games_n, win:val.Voitot, los: val.Haviot, even:val.Tasa});
+    objects.push({Name:i, Elo:val.Elo_nyt, oka:Number((oka_sum/val.tulokset.length).toFixed(2)), best:val.tulokset.max(), gamed: diff(val.tulokset), N:games_n, win:val.Voitot, los: val.Haviot, even:val.Tasa});
     if(player_n.n < games_n){
       player_n.n = games_n;
       player_n.Name = i;
@@ -425,4 +412,27 @@ function diff(ary) {
       result = 0;
     }
     return result;
+}
+
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
+function rise(ary) {
+  var sumX = 0, //sum of x values
+    sumY = 0, //sum of y values
+    sumXX = 0, //sum of x^2 values
+    sumXY = 0, //sum of xy values
+    newData = [],
+    a, b, n = ary.length;
+  $.each(ary, function(i,val){
+    sumXY += i * val;
+    sumX += i;
+    sumY += val;
+    sumXX += i * i
+
+  });
+  a = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+  b = (sumY * sumXX - sumX * sumXY) / (n * sumXX - sumX * sumX);
+  return [a,b];
 }
