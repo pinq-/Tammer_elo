@@ -104,10 +104,10 @@ function parse_player_data(data){
     date.setMinutes(date.getMinutes() - 30);
     date = date.getTime();
     if(typeof stats[val.player1] === 'undefined'){
-      stats[val.player1] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0}
+      stats[val.player1] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
     };
     if(typeof stats[val.player2] === 'undefined'){
-      stats[val.player2] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0}
+      stats[val.player2] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
     };
     val.input_date_s =  new Date(val.input_date);
     val.elo1_delta = Math.abs(Number((val.elo1 - stats[val.player1].Elo_nyt).toFixed(1)));
