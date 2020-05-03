@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Tammer-kyykka ELO</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Tammer-Kyykkä<sup>elo</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Tilastot</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="Game_result.html">
+          <i class="fas fa-fw fa-calendar-alt"></i>
+          <span>Pöytäkirja</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+    <!-- <div id="content-wrapper" class="d-flex flex-column bg-dark"> -->
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-gradient-danger topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+          <ul class="navbar-nav ml-auto">
+            <button id="dark-mode" type="button" class="btn btn-dark">Dark mode</button>
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Pöytäkirjat</h1>
+          </div>
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-danger">Henkilökohtaisen pelin pöytäkirja</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <style type="text/css">
+                    .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+                    .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+                    .points_left td{border-color:black;}
+
+                    </style>
+                      <table class="tabularInput-table">
+                        <tr>
+                          <th class="tg-dvpl">1-puoli</th>
+                          <th class="tg-0pky">2-puoli</th>
+                          <th class="tg-0pky">mailat</th>
+                          <th class="tg-0pky" colspan="3" rowspan="6"></th>
+                        </tr>
+                        <tr>
+                          <td id = "a1" class="tg-0pky"><input type="number"></td>
+                          <td id = "b1" class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">20</td>
+                        </tr>
+                        <tr>
+                          <td id = "a2" class="tg-0pky"><input type="number"></td>
+                          <td id = "b2" class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">19</td>
+                        </tr>
+                        <tr>
+                          <td id = "a3" class="tg-0pky"><input type="number"></td>
+                          <td id = "b3" class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">18</td>
+                        </tr>
+                        <tr>
+                          <td id = "a4" class="tg-0pky"><input type="number"></td>
+                          <td id = "b4" class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">17</td>
+                        </tr>
+                        <tr class="points_left">
+                          <td id = "a5" class="tg-0pky"></td>
+                          <td id = "b5" class="tg-0pky"></td>
+                          <td class="tg-7btt">jäi</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">16</td>
+                          <td class="tg-0pky" colspan="3">Pelaajan nimi</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">15</td>
+                          <td class="tg-0pky" colspan="3"><input type="text"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">14</td>
+                          <td class="tg-0pky" colspan="3" rowspan="3"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">13</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-7btt">jäi<br></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">12</td>
+                          <td class="tg-0pky" colspan="3">Pelaajan seura</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">11</td>
+                          <td class="tg-0pky" colspan="3"><input type="text"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">10</td>
+                          <td class="tg-0pky" colspan="3" rowspan="3"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">9</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-7btt">jäi</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">8</td>
+                          <td class="tg-0pky" colspan="3">Pelaajan sarja</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">7</td>
+                          <td class="tg-0pky" colspan="3"><input type="text"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">6</td>
+                          <td class="tg-0pky" colspan="3" rowspan="3"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">5</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-7btt">jäi<br></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">4</td>
+                          <td class="tg-0pky" colspan="3">Lyöty tulos:<br></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">3<br></td>
+                          <td class="tg-0pky" colspan="3"><input type="number"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">2</td>
+                          <td class="tg-0pky" colspan="3">Ikähyvitys:</td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-c3ow">1</td>
+                          <td class="tg-0pky" colspan="3"><input type="number"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-7btt">jäi</td>
+                          <td class="tg-0pky" colspan="3">Lopputulos:<br></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-c3ow">tulos</td>
+                          <td class="tg-0pky" colspan="3"><input type="number"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-c3ow">hudit</td>
+                          <td class="tg-0pky">yht.</td>
+                          <td class="tg-0pky"><input type="number"></td>
+                          <td class="tg-0pky"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-c3ow">akat</td>
+                          <td class="tg-0pky">Pelaaja</td>
+                          <td class="tg-0pky" colspan="2"><input type="text"></td>
+                        </tr>
+                        <tr>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-0pky"></td>
+                          <td class="tg-c3ow">papit</td>
+                          <td class="tg-0pky">Tuomari</td>
+                          <td class="tg-0pky" colspan="2"><input type="text"></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- End of Footer -->
+
+    </div>
+
+
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.jqueryui.min.js"></script>
+  <link href="css/tabular-input.css" rel="stylesheet" type="text/css">
+  <script src="js/base.js" type="text/javascript" charset="utf8"></script>
+  <script src="js/Poytakirjat.js" type="text/javascript" charset="utf8"></script>
+
+</body>
+
+</html>

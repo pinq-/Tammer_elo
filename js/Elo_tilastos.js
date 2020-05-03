@@ -75,6 +75,15 @@ $( document ).ready(function() {
   //   }
   // }
 
+  $('#Player_info tbody').on( 'click', 'tr', function () {
+     if ( $(this).hasClass('selected') ) {
+         $(this).removeClass('selected');
+     } else {
+         Player_result_table.$('tr.selected').removeClass('selected');
+         $(this).addClass('selected');
+     }
+  });
+
 });
 
 

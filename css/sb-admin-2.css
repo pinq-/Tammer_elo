@@ -1421,6 +1421,10 @@ pre code {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
 }
+.selected {
+  color: #4d4e56;
+  background-color: rgba(0, 0, 0, 0.2);
+}
 
 .table-primary,
 .table-primary > th,
