@@ -13,6 +13,8 @@ tbody
 td
 {
 	transition: width .1s;
+	text-align: center;
+	color: black;
 }
 
 td input
@@ -24,6 +26,7 @@ td input
 	font-size: 90%;
 	box-sizing: border-box;
 	border: 1px solid #ddd;
+	background-color: #e7e7e7;
 	/* border-right-width: 0px; */
 }
 
@@ -31,6 +34,41 @@ td input
 {
 	border-right: 1px solid #ddd;
 } */
+
+.Henkkari tr {
+  border: 1px solid #a5a5a5;
+}
+.text {
+  padding-top: 12px;
+  padding-bottom: 12px;
+	padding-right: 12px;
+  text-align: center;
+  background-color: #e24637;
+  color: black;
+	font-weight: bold;
+	/* font-size: 15px; */
+}
+.text2 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+	padding-right: 12px;
+  text-align: center;
+  background-color: #c93021;
+  color: black;
+	font-weight: bold;
+	/* font-size: 15px; */
+}
+.tg-c3ow{
+	border-color:inherit;
+	text-align:center;
+	vertical-align:top;
+	background-color: #e24637;
+	color: black;
+}
+
+.colspan {
+	border: 0px;
+}
 
 tr.animate-add td:last-child,
 tr.animate-remove td:last-child
