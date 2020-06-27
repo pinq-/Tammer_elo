@@ -1,9 +1,6 @@
 var save_json = [];
 $( document ).ready(function() {
   get_json();
-  // $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
-  // localStorage.getItem('theme');
-  // localStorage.setItem('theme', 'dark'); //add this
   var Player_result_table = $('#Player_info').DataTable( {
         paging: false,
         searching: false,
@@ -64,17 +61,6 @@ $( document ).ready(function() {
     };
   });
 
-  $('#dark-mode').on( 'click', function () {
-    dark_mode();
-    Highcharts.chart('Elo_pisteet').xAxis[0].setExtremes(Date.UTC(2020, 4, 8), Date.UTC(2020, 5, 10));
-  });
-  // const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-  // if(currentTheme){
-  //   if (currentTheme === 'dark') {
-  //     dark_mode();
-  //   }
-  // }
-
   $('#Player_info tbody').on( 'click', 'tr', function () {
      if ( $(this).hasClass('selected') ) {
          $(this).removeClass('selected');
@@ -107,11 +93,9 @@ function parse_player_data(data){
     player_key2 = val.player2 + "_" + val.player1;
     // console.log(val);
     if(start_points == 0){
-      start_points = (val.elo1 + val.elo2)/2;
+      start_points = (val.elo1 + val.elo2) / 2;
     }
-    date = new Date(val.input_date);
-    date.setMinutes(date.getMinutes() - 30);
-    date = date.getTime();
+    date = new Date(val.input_date).getTime();
     if(typeof stats[val.player1] === 'undefined'){
       stats[val.player1] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
     };
@@ -156,7 +140,7 @@ function parse_player_data(data){
 
   });
   var today = new Date().getTime();
-  $.each(stats, function(i, val){
+  $.each(stats, function(i, val){ // lisätään viimeinen tulos listan loppuun tämän päivän kanssa, jottan elo plot näyttää hyvältä
     val.Elo_kehitys.push(val.Elo_kehitys[val.Elo_kehitys.length -1]);
     val.pelin_aika.push(today);
     if(val.tulokset.length > 1){
@@ -206,7 +190,7 @@ function piirra_elo_kayra(data){
                       var chart = this,
                       series = this.series[0],
                       xAxis = chart.xAxis[0],
-                      newStart = series.xData[series.xData.length -5],
+                      newStart = series.xData[series.xData.length -35],
                       newEnd = series.xData[series.xData.length -1];
                       // console.log(series.xData);
                     xAxis.setExtremes(newStart, newEnd);
@@ -296,11 +280,7 @@ function piirra_hka_kayra(name){
 
     })
   }
-);
-  if ($("#content-wrapper").hasClass("bg-dark")) {
-    $("#Hka_pisteet .highcharts-background").toggleClass('bg-card-dark');
-    $("#Hka_pisteet text").toggleClass('text-gray-100');
-  }
+  );
 };
 
 function piirra_yhteydet(data){
@@ -384,33 +364,6 @@ function fill_table(data){
   table.rows.add(objects).draw();
 };
 
-function dark_mode(){
-  $("#content-wrapper").toggleClass('bg-dark');
-  $(".card-body").toggleClass('bg-card-dark');
-  $(".card").toggleClass('bg-card-dark');
-  $(".card-header").toggleClass('card-header-dark');
-  $(".h5").toggleClass('text-gray-100');
-  $(".h5").toggleClass('text-gray-800');
-  $(".h3").toggleClass('text-gray-100');
-  $(".h3").toggleClass('text-gray-800');
-  $(".sidebar-brand-text").toggleClass('text-gray-900');
-  $(".sidebar-brand-icon").toggleClass('text-gray-900');
-  $(".nav-link").toggleClass('text-gray-900');
-  $(".fas").toggleClass('text-gray-900');
-  $(".table").toggleClass('table-dark');
-  $(".highcharts-background").toggleClass('bg-card-dark');
-  $(".highcharts-text-outline").toggleClass('text-dark-stroke');
-  $("text").toggleClass('text-gray-100');
-  $("#dark-mode").toggleClass('btn-dark');
-  $("#dark-mode").toggleClass('btn-light');
-  $(".modal-content").toggleClass('bg-dark');
-  if($("#dark-mode").text() == "Dark mode"){
-    $("#dark-mode").text("White mode")
-  }else{
-    $("#dark-mode").text("Dark mode")
-
-  }
-};
 
 function diff(ary) {
     var newA = [];
