@@ -11,7 +11,6 @@ $( document ).ready(function() {
             { data: "Elo", defaultContent: 0 },
             { data: "oka", defaultContent: 0 },
             { data: "best", defaultContent: 0 },
-            { data: "gamed", defaultContent: 0 },
             { data: "N", defaultContent: 0 },
             { data: "win", defaultContent: 0 },
             { data: "los", defaultContent: 0 },
@@ -33,7 +32,7 @@ $( document ).ready(function() {
         ],
         columnDefs: [ {
               targets: 0,
-              render: $.fn.dataTable.render.moment( 'YYYYMMDD','HH:mm DD.MM' )
+              render: $.fn.dataTable.render.moment( 'YYYYMMDD','DD.MM.YYYY HH:mm' )
             } ],
   });
   $('#all_games_table').DataTable( {
@@ -50,7 +49,7 @@ $( document ).ready(function() {
         ],
         columnDefs: [ {
               targets: 0,
-              render: $.fn.dataTable.render.moment( 'YYYYMMDD','HH:mm DD.MM' )
+              render: $.fn.dataTable.render.moment( 'YYYYMMDD','DD.MM.YYYY HH:mm' )
             }],
   });
   $('#Player_info tbody').on( 'click', 'tr', function () {
@@ -89,34 +88,38 @@ function parse_player_data(data){
 
   $("#games_n").text(data.length);
   $.each(data, function(i,val){
+    val.input_date_s =  new Date(val.input_date);
+    time = val.input_date_s.getTime()
     player_key1 = val.player1 + "_" + val.player2;
     player_key2 = val.player2 + "_" + val.player1;
     // console.log(val);
     if(start_points == 0){
       start_points = (val.elo1 + val.elo2) / 2;
     }
-    date = new Date(val.input_date).getTime();
     if(typeof stats[val.player1] === 'undefined'){
-      stats[val.player1] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
+      stats[val.player1] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [time], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
     };
     if(typeof stats[val.player2] === 'undefined'){
-      stats[val.player2] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [date], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
+      stats[val.player2] = {tulokset: [], Elo_kehitys:[start_points], pelin_aika: [time], Elo_nyt:start_points, Voitot:0, Haviot:0, Tasa:0, rise:[0,0]}
     };
-    val.input_date_s =  new Date(val.input_date);
     val.elo1_delta = Math.abs(Number((val.elo1 - stats[val.player1].Elo_nyt).toFixed(1)));
-    if ( i > data.length-4){
-      new_games.rows.add([val]).draw();
+    if ( i > data.length-7){
+      new_games.rows.add([val]);
     }
-    all_games.rows.add([val]).draw();
-    date = new Date(val.input_date).getTime();
+
+
+    //all_games.rows.add([val]).draw();
+    all_games.rows.add([val]);
+
+
     stats[val.player1].tulokset.push(val.score1);
     stats[val.player1].Elo_kehitys.push(Number((val.elo1).toFixed(1)));
     stats[val.player1].Elo_nyt = Number((val.elo1).toFixed(1));
     stats[val.player2].tulokset.push(val.score2);
     stats[val.player2].Elo_kehitys.push(Number((val.elo2).toFixed(1)));
     stats[val.player2].Elo_nyt = Number((val.elo2).toFixed(1));
-    stats[val.player1].pelin_aika.push(date);
-    stats[val.player2].pelin_aika.push(date);
+    stats[val.player1].pelin_aika.push(time);
+    stats[val.player2].pelin_aika.push(time);
     if(val.score1 > val.score2){
       stats[val.player1].Voitot ++;
       stats[val.player2].Haviot ++;
@@ -139,8 +142,13 @@ function parse_player_data(data){
     }
 
   });
+
+  all_games.draw();
+  new_games.draw();
+
+
   var today = new Date().getTime();
-  $.each(stats, function(i, val){ // lisätään viimeinen tulos listan loppuun tämän päivän kanssa, jottan elo plot näyttää hyvältä
+  $.each(stats, function(i, val){ // lisätään viimeinen tulos listan loppuun tämän päivän kanssa, jotta elo plot näyttää hyvältä
     val.Elo_kehitys.push(val.Elo_kehitys[val.Elo_kehitys.length -1]);
     val.pelin_aika.push(today);
     if(val.tulokset.length > 1){
